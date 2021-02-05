@@ -53,6 +53,7 @@ const BotCard = props => {
               >
                 x
               </button>
+              
             </div>
           </span>
         </div>
