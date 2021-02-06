@@ -3,13 +3,9 @@ import BotCard from '../components/BotCard';
 
 class BotCollection extends Component {
 
-  renderBots = (botsCollection) => {
-    // iterates over botsCollection in props then renders BotCard while passing the bot as a prop
-    
+  renderBotCards = (botsCollection) => {
     return (
-      botsCollection.map((bot, index) => {
-        return <BotCard bot={bot}/>
-      })
+      botsCollection.map((bot, index) => <BotCard key={index} addBotToArmy={this.props.addBotToArmy} bot={bot} />)
     )
   }
 
@@ -18,8 +14,8 @@ class BotCollection extends Component {
       <div className="ui four column grid">
         <div className="row">
           Collection of all bots
-          {/* calls renderBots function to render BotCard components for each bot in botsCollection */}
-          {this.renderBots(this.props.botsCollection)}  
+          <br />
+          {this.renderBotCards(this.props.botsCollection)}  
         </div>
       </div>
     );
