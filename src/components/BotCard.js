@@ -10,12 +10,33 @@ const botTypeClasses = {
 };
 
 const BotCard = props => {
+  let deleteFromBoth = (bot) => {
+    fetch(`http://localhost:6001/fave_bots/${bot.id}`, {
+      method: 'DELETE',
+          headers: {
+              'Content-Type':'application/json',
+              'Accept':'application/json'
+              
+             },
+          body: JSON.stringify({
+            
+              "bot_id": bot.id
+              
+             
+              
+             })
+            }) 
+          .then(res=> res.json())
+             .then(json=> console.log(json))
+             .catch(err=> console.log(err))
+            }
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={props.bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        onClick={() => deleteFromBoth(props.bot)}
+
       >
         <div className="image">
           <img alt="oh no!" src={props.bot.avatar_url} />
@@ -48,7 +69,7 @@ const BotCard = props => {
               <button
                 className="ui mini red button"
                 onClick={() =>
-                  console.log("add code to connect event listener")
+                  deleteFromBoth(props.bot)
                 }
               >
                 x

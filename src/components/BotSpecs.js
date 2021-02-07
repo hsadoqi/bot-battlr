@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const botTypeClasses = {
   Assault: "icon military",
   Defender: "icon shield",
@@ -8,9 +9,41 @@ const botTypeClasses = {
   Witch: "icon magic",
   Captain: "icon star"
 };
-
 const BotSpecs = props => {
-  return (
+  let addingToFaves = (bot) => {
+   props.addToFaves(bot)
+   }
+  
+   let addToArmy = (bot) => {
+    fetch('http://localhost:6001/fave_bots', {
+     method: 'POST',
+     headers: {
+       'Content-Type':'application/json',
+       'Accept':'application/json'
+       
+      },
+      body: JSON.stringify({
+              "name": bot.name,
+              "bot_class": bot.bot_class,
+              "damage": bot.damage,
+              "armor": bot.armor,
+             "health": bot.health,
+             "catchphrase": bot.catchphrase,
+             "avatar_url": bot.avatar_url,
+             "bot_id": bot.id
+             
+             
+             
+            })
+          }) 
+          .then(res=> res.json())
+          .then(json=> addingToFaves(json))
+          .catch(err=> console.log(err))
+        }
+        
+
+        
+        return (
     <div className="ui segment">
       <div className="ui two column centered grid">
         <div className="row">
@@ -19,7 +52,7 @@ const BotSpecs = props => {
               alt="oh no!"
               className="ui medium circular image bordered"
               src={props.bot.avatar_url}
-            />
+              />
           </div>
           <div className="four wide column">
             <h2>Name: {props.bot.name}</h2>
@@ -53,19 +86,19 @@ const BotSpecs = props => {
             <button
               className="ui button fluid"
               onClick={() =>
-                console.log("connect this to a function that shows all bots")
+                console.log("Didn't add this functionality")
+              
               }
-            >
+              >
               Go Back
             </button>
             <button
               className="ui button fluid"
               onClick={() =>
-                console.log(
-                  "connect this to a function that adds this bot to your bot army list"
-                )
+                addToArmy(props.bot)                
               }
-            >
+              //onClick={()=> console.log(props)}
+              >
               Enlist
             </button>
           </div>
