@@ -5,7 +5,7 @@ class BotCollection extends Component {
 
   renderBotCards = (botsCollection) => {
     return (
-      botsCollection.map((bot, index) => <BotCard key={index} addBotToArmy={this.props.addBotToArmy} bot={bot} />)
+      botsCollection.map((bot, index) => <BotCard key={index} addOrRemoveBot={this.props.addBotToArmy} bot={bot} />)
     )
   }
 

@@ -6,7 +6,7 @@ class YourBotArmy extends Component {
   renderBotArmy = botArmyCollection => {
 
     return(
-      botArmyCollection.map((bot, index) => <BotCard key={index} bot={bot}/>)
+      botArmyCollection.map((bot, index) => <BotCard key={index} bot={bot} addOrRemoveBot={this.props.removeBotFromArmy} />)
     )
   }
 

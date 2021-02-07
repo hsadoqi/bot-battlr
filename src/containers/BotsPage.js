@@ -40,11 +40,29 @@ class BotsPage extends Component {
     }
   }
 
+  removeBotFromArmy = (event) => {
+    
+    // callback for use in .findIndex; returns the element that matches the condition
+    const botIdsMatch = (element) => {
+      return element.id === parseInt(event.currentTarget.id)
+    }
+    
+    // finds the index of the element returned from the callback
+    const botIndex = this.state.botArmyCollection.findIndex(botIdsMatch)
+
+    if (botIndex != -1) {
+      this.setState({
+        botsCollection: [...this.state.botsCollection],
+        botArmyCollection: [...this.state.botArmyCollection.slice(0, botIndex), ...this.state.botArmyCollection.slice(botIndex + 1)]
+      })
+    }
+  }
+
   render() {
     return(
       <div>
         <BotCollection botsCollection={this.state.botsCollection} addBotToArmy={this.addBotToArmy.bind(this)}/>
-        <YourBotArmy botArmyCollection={this.state.botArmyCollection} />
+        <YourBotArmy botArmyCollection={this.state.botArmyCollection} removeBotFromArmy={this.removeBotFromArmy.bind(this)} />
       </div>
     )
   }
