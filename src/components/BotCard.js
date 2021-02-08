@@ -10,7 +10,6 @@ const botTypeClasses = {
 };
 
 const BotCard = props => {
-  // debugger
   return (
     <div className="ui column">
       <div

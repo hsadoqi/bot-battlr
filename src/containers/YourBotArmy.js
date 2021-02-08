@@ -3,10 +3,6 @@ import BotCard from '../components/BotCard';
 
 class YourBotArmy extends Component {
 
-  // componentDidUpdate() {
-  //   this.renderBotArmy(this.props.botArmyCollection)
-  // }
-
   renderBotArmy = botArmyCollection => {
 
     return(

@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import BotCard from '../components/BotCard';
 
 class BotCollection extends Component {
-  
-  // componentDidUpdate() {
-  //   this.renderBotCards(this.props.botsCollection)
-  // }
 
   renderBotCards = (botsCollection) => {
     return (
