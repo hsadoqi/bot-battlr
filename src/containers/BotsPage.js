@@ -65,7 +65,7 @@ class BotsPage extends Component {
       return element.id === parseInt(event.currentTarget.id)
     }
 
-    const botIndex = this.state.botArmyCollection.findIndex(botIdsMatch)
+    const botIndex = this.state.botsCollection.findIndex(botIdsMatch)
 
     if (botIndex != -1) {
       this.setState({
@@ -76,13 +76,28 @@ class BotsPage extends Component {
   }
 
   removeBotFromAll = (event) => {
-    // FIX THIS
-    // need to then send a DELETE request to backend to remove bot by id
-
     // prevents removeBotFromArmy(), which is listening on a grandparent div, from firing when the nested event listener on the red "x" button is clicked
     event.stopPropagation()
-    this.removeBotFromArmy(event)
-    this.removeBotFromBotsCollection(event)
+
+    const botIdsMatch = (element) => {
+      return element.id === parseInt(event.currentTarget.id)
+    }
+
+    const botArmyIndex = this.state.botArmyCollection.findIndex(botIdsMatch)
+    const botsCollectionIndex = this.state.botsCollection.findIndex(botIdsMatch)
+
+    // if botArmy doesn't have the bot, setState in just botCollection, if found in botArmy, setState in both
+    if (botArmyIndex != -1) {
+      this.setState({
+        botsCollection: [...this.state.botsCollection.slice(0, botsCollectionIndex), ...this.state.botsCollection.slice(botsCollectionIndex + 1)],
+        botArmyCollection: [...this.state.botArmyCollection.slice(0, botArmyIndex), ...this.state.botArmyCollection.slice(botArmyIndex + 1)]
+      })
+    } else {
+      this.setState({
+        botsCollection: [...this.state.botsCollection.slice(0, botsCollectionIndex), ...this.state.botsCollection.slice(botsCollectionIndex + 1)],
+        botArmyCollection: [...this.state.botArmyCollection]
+      })
+    }
 
     fetch(`http://localhost:6001/bots/${event.currentTarget.id}`, 
     { 
@@ -90,19 +105,6 @@ class BotsPage extends Component {
       headers: { 'Content-Type': 'application/json' },
       body: null
     })
-
-    // fetch("http://localhost:6001/bots")
-    // .then(res => res.json())
-    // .then(data => {
-    //   return(
-    //     data.map((bot, index) => {
-    //       this.setState({
-    //         botsCollection: [...this.state.botsCollection, bot],
-    //         botArmyCollection: [...this.state.botArmyCollection]
-    //       })
-    //     })
-    //   )
-    // })
   }
 
   render() {
