@@ -3,10 +3,14 @@ import BotCard from '../components/BotCard';
 
 class YourBotArmy extends Component {
 
+  // componentDidUpdate() {
+  //   this.renderBotArmy(this.props.botArmyCollection)
+  // }
+
   renderBotArmy = botArmyCollection => {
 
     return(
-      botArmyCollection.map((bot, index) => <BotCard key={index} bot={bot} addOrRemoveBot={this.props.removeBotFromArmy} />)
+      botArmyCollection.map((bot, index) => <BotCard key={index} bot={bot} addOrRemoveBot={this.props.removeBotFromArmy} removeBotFromAll={this.props.removeBotFromAll} />)
     )
   }
 

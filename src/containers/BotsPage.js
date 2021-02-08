@@ -18,7 +18,8 @@ class BotsPage extends Component {
       return(
         data.map((bot, index) => {
           this.setState({
-            botsCollection: [...this.state.botsCollection, bot]
+            botsCollection: [...this.state.botsCollection, bot],
+            botArmyCollection: [...this.state.botArmyCollection]
           })
         })
       )
@@ -46,7 +47,7 @@ class BotsPage extends Component {
     const botIdsMatch = (element) => {
       return element.id === parseInt(event.currentTarget.id)
     }
-    
+
     // finds the index of the element returned from the callback
     const botIndex = this.state.botArmyCollection.findIndex(botIdsMatch)
 
@@ -58,11 +59,66 @@ class BotsPage extends Component {
     }
   }
 
+  removeBotFromBotsCollection = (event) => {
+
+    const botIdsMatch = (element) => {
+      return element.id === parseInt(event.currentTarget.id)
+    }
+
+    const botIndex = this.state.botArmyCollection.findIndex(botIdsMatch)
+
+    if (botIndex != -1) {
+      this.setState({
+        botsCollection: [...this.state.botsCollection.slice(0, botIndex), ...this.state.botsCollection.slice(botIndex + 1)],
+        botArmyCollection: [...this.state.botArmyCollection]
+      })
+    }
+  }
+
+  removeBotFromAll = (event) => {
+    // FIX THIS
+    // need to then send a DELETE request to backend to remove bot by id
+
+    // prevents removeBotFromArmy(), which is listening on a grandparent div, from firing when the nested event listener on the red "x" button is clicked
+    event.stopPropagation()
+    this.removeBotFromArmy(event)
+    this.removeBotFromBotsCollection(event)
+
+    fetch(`http://localhost:6001/bots/${event.currentTarget.id}`, 
+    { 
+      method: 'DELETE', 
+      headers: { 'Content-Type': 'application/json' },
+      body: null
+    })
+
+    // fetch("http://localhost:6001/bots")
+    // .then(res => res.json())
+    // .then(data => {
+    //   return(
+    //     data.map((bot, index) => {
+    //       this.setState({
+    //         botsCollection: [...this.state.botsCollection, bot],
+    //         botArmyCollection: [...this.state.botArmyCollection]
+    //       })
+    //     })
+    //   )
+    // })
+  }
+
   render() {
     return(
       <div>
-        <BotCollection botsCollection={this.state.botsCollection} addBotToArmy={this.addBotToArmy.bind(this)}/>
-        <YourBotArmy botArmyCollection={this.state.botArmyCollection} removeBotFromArmy={this.removeBotFromArmy.bind(this)} />
+        <BotCollection 
+          botsCollection={this.state.botsCollection} 
+          addBotToArmy={this.addBotToArmy.bind(this)} 
+          removeBotFromAll={this.removeBotFromAll.bind(this)} 
+        />
+
+        <YourBotArmy 
+          botArmyCollection={this.state.botArmyCollection} 
+          removeBotFromArmy={this.removeBotFromArmy.bind(this)} 
+          removeBotFromAll={this.removeBotFromAll.bind(this)} 
+        />
       </div>
     )
   }

@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import BotCard from '../components/BotCard';
 
 class BotCollection extends Component {
+  
+  // componentDidUpdate() {
+  //   this.renderBotCards(this.props.botsCollection)
+  // }
 
   renderBotCards = (botsCollection) => {
     return (
-      botsCollection.map((bot, index) => <BotCard key={index} addOrRemoveBot={this.props.addBotToArmy} bot={bot} />)
+      botsCollection.map((bot, index) => <BotCard key={index} addOrRemoveBot={this.props.addBotToArmy} bot={bot} removeBotFromAll={this.props.removeBotFromAll} />)
     )
   }
 
